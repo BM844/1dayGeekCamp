@@ -53,6 +53,7 @@ export const menus: Record<string, MenuItem[]> = {
       name: "いくら",
       price: 220,
       description: "濃厚な味わいのいくら軍艦",
+      image: "/images/ikura.png",
       category: "sushi",
       isAvailable: true,
       allergens: ["魚卵"],
