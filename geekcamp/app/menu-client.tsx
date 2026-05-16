@@ -159,13 +159,16 @@ export default function MenuClient({
       </main>
 
       {/* フローティングボタン */}
-      <div className="fixed bottom-4 right-4 flex flex-col gap-2 items-end">
+      <div className="fixed bottom-4 left-4">
         <button
           onClick={openCheckout}
-          className="flex items-center gap-2 rounded-full bg-zinc-700 px-5 py-3 text-sm font-medium text-white shadow-lg"
+          className="flex items-center gap-2 rounded-full bg-red-500 px-5 py-3 text-sm font-medium text-white shadow-lg"
         >
           お会計
         </button>
+      </div>
+
+      <div className="fixed bottom-4 right-4">
         <button
           onClick={() => setShowOrder(true)}
           className="relative flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-lg"
@@ -180,6 +183,7 @@ export default function MenuClient({
       </div>
 
       {/* 注文リストモーダル */}
+
       {showOrder && (
         <div className="fixed inset-0 z-50 flex flex-col bg-white">
           <header className="flex items-center justify-between border-b px-4 py-3">
