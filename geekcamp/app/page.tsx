@@ -10,6 +10,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("sushi");
   const [orderList, setOrderList] = useState<MenuItem[]>([]);
   const [showOrder, setShowOrder] = useState(false);
+  const [people, setPeople] = useState(1);
   const menuList = menus[selectedCategory];
 
   const addToOrder = (item: MenuItem) => {
@@ -104,6 +105,23 @@ export default function Home() {
                 <div className="flex items-center justify-between pt-2 text-lg font-bold">
                   <span>合計</span>
                   <span>¥{orderList.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</span>
+                </div>
+                <div className="mt-4 rounded-xl bg-zinc-50 p-4">
+                  <p className="mb-2 text-sm font-medium text-zinc-600">割り勘</p>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      value={people}
+                      onChange={(e) => setPeople(Math.max(1, Number(e.target.value)))}
+                      className="w-16 rounded-lg border px-2 py-1 text-center text-sm"
+                    />
+                    <span className="text-sm text-zinc-500">人で割ると</span>
+                    <span className="font-bold">
+                      ¥{Math.ceil(orderList.reduce((sum, item) => sum + item.price, 0) / people).toLocaleString()}
+                    </span>
+                    <span className="text-sm text-zinc-500">/人</span>
+                  </div>
                 </div>
               </div>
             )}
