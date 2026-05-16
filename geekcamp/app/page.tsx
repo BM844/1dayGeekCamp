@@ -10,7 +10,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("sushi");
   const [orderList, setOrderList] = useState<MenuItem[]>([]);
   const [showOrder, setShowOrder] = useState(false);
-  const [people, setPeople] = useState(1);
+  const [peopleInput, setPeopleInput] = useState("1");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const menuList = menus[selectedCategory];
 
@@ -22,6 +22,21 @@ export default function Home() {
     }
     setOrderList((prev) => [...prev, item]);
   };
+
+  const total = orderList.reduce((sum, item) => sum + item.price, 0);
+  const people = Math.max(1, Number(peopleInput) || 1);
+  const perPerson = Math.ceil(total / people);
+
+  // 同じ品をまとめてカウント
+  const grouped = orderList.reduce<{ item: MenuItem; count: number }[]>((acc, item) => {
+    const existing = acc.find((g) => g.item.name === item.name);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      acc.push({ item, count: 1 });
+    }
+    return acc;
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50">
@@ -108,19 +123,22 @@ export default function Home() {
             </button>
           </header>
           <div className="flex-1 overflow-y-auto p-4">
-            {orderList.length === 0 ? (
+            {grouped.length === 0 ? (
               <p className="text-center text-zinc-400 mt-10">まだ何も追加されていません</p>
             ) : (
               <div className="flex flex-col gap-3">
-                {orderList.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between border-b pb-3">
-                    <span className="font-medium">{item.name}</span>
-                    <span className="text-zinc-500">¥{item.price.toLocaleString()}</span>
+                {grouped.map(({ item, count }) => (
+                  <div key={item.name} className="flex items-center justify-between border-b pb-3">
+                    <span className="font-medium">
+                      {item.name}
+                      {count > 1 && <span className="ml-1 text-sm text-zinc-400">×{count}</span>}
+                    </span>
+                    <span className="text-zinc-500">¥{(item.price * count).toLocaleString()}</span>
                   </div>
                 ))}
                 <div className="flex items-center justify-between pt-2 text-lg font-bold">
                   <span>合計</span>
-                  <span>¥{orderList.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</span>
+                  <span>¥{total.toLocaleString()}</span>
                 </div>
                 <div className="mt-4 rounded-xl bg-zinc-50 p-4">
                   <p className="mb-2 text-sm font-medium text-zinc-600">割り勘</p>
@@ -128,14 +146,13 @@ export default function Home() {
                     <input
                       type="number"
                       min={1}
-                      value={people}
-                      onChange={(e) => setPeople(Math.max(1, Number(e.target.value)))}
+                      value={peopleInput}
+                      onChange={(e) => setPeopleInput(e.target.value)}
+                      onBlur={() => setPeopleInput(String(people))}
                       className="w-16 rounded-lg border px-2 py-1 text-center text-sm"
                     />
                     <span className="text-sm text-zinc-500">人で割ると</span>
-                    <span className="font-bold">
-                      ¥{Math.ceil(orderList.reduce((sum, item) => sum + item.price, 0) / people).toLocaleString()}
-                    </span>
+                    <span className="font-bold">¥{perPerson.toLocaleString()}</span>
                     <span className="text-sm text-zinc-500">/人</span>
                   </div>
                 </div>
