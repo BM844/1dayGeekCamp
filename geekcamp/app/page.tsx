@@ -7,9 +7,9 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const categories = [
   { id: "sushi", name: "すし", emoji: "🍣", image: "/images/sushi.png" },
-  { id: "pizza", name: "ピザ", emoji: "🍕" },
-  { id: "drinks", name: "飲みもの", emoji: "🥤" },
-  { id: "dessert", name: "デザート", emoji: "🍰" },
+  { id: "pizza", name: "ピザ", emoji: "🍕", image: "/images/pizza.png" },
+  { id: "drinks", name: "飲みもの", emoji: "🥤", image: "/images/beverages.png" },
+  { id: "dessert", name: "デザート", emoji: "🍰", image: "/images/dessert.png" },
 ];
 
 const menus: Record<string, { name: string; price: number }[]> = {
