@@ -3,41 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
-const categories = [
-  { id: "sushi", name: "すし" },
-  { id: "pizza", name: "ピザ" },
-  { id: "drinks", name: "飲みもの" },
-  { id: "dessert", name: "デザート" },
-];
-
-const menus: Record<string, { name: string; price: number }[]> = {
-  sushi: [
-    { name: "まぐろ", price: 180 },
-    { name: "サーモン", price: 160 },
-    { name: "えび", price: 150 },
-    { name: "いくら", price: 220 },
-    { name: "カリフォルニアロール", price: 1000 },
-  ],
-  pizza: [
-    { name: "マルゲリータ", price: 980 },
-    { name: "ペペロニ", price: 1080 },
-    { name: "クワトロフォルマッジ", price: 1180 },
-    { name: "ビスマルク", price: 12000 },
-    { name: "生ハムのルッコラ", price: 5000 },
-  ],
-  drinks: [
-    { name: "コーラ", price: 280 },
-    { name: "オレンジジュース", price: 300 },
-    { name: "緑茶", price: 250 },
-    { name: "ビール", price: 480 },
-  ],
-  dessert: [
-    { name: "アイスクリーム", price: 350 },
-    { name: "プリン", price: 280 },
-    { name: "チーズケーキ", price: 420 },
-  ],
-};
+import { categories, menus } from "@/data/menus";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("sushi");
