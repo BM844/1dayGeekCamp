@@ -18,7 +18,23 @@ export default function MenuClient({
   const [showOrder, setShowOrder] = useState(false);
   const [peopleInput, setPeopleInput] = useState("1");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [ordering, setOrdering] = useState(false);
   const menuList = menus[selectedCategory] ?? [];
+
+  const confirmOrder = async () => {
+    if (orderList.length === 0) return;
+    setOrdering(true);
+    await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: grouped, total }),
+    });
+    setOrdering(false);
+    setOrderList([]);
+    setShowOrder(false);
+    setErrorMessage("ご注文ありがとうございました！");
+    setTimeout(() => setErrorMessage(null), 3000);
+  };
 
   const addToOrder = (item: MenuItem) => {
     if (!item.isAvailable) {
@@ -159,6 +175,14 @@ export default function MenuClient({
                     <span className="text-sm text-zinc-500">/人</span>
                   </div>
                 </div>
+                <Button
+                  className="mt-4 w-full"
+                  size="lg"
+                  onClick={confirmOrder}
+                  disabled={ordering}
+                >
+                  {ordering ? "送信中..." : "注文を確定する"}
+                </Button>
               </div>
             )}
           </div>
