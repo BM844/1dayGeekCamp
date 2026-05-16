@@ -38,7 +38,6 @@ const menus: Record<string, { name: string; price: number }[]> = {
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
   if (selectedCategory) {
     const categoryName = categories.find((c) => c.id === selectedCategory)?.name;
@@ -48,10 +47,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col bg-zinc-50">
         <header className="flex items-center gap-3 bg-white px-4 py-3 shadow-sm">
           <button
-            onClick={() => {
-              setSelectedCategory(null);
-              setSelectedMenu(null);
-            }}
+            onClick={() => setSelectedCategory(null)}
             className="text-zinc-500 hover:text-zinc-700"
           >
             ← 戻る
@@ -62,31 +58,18 @@ export default function Home() {
         <main className="mx-auto w-full max-w-md flex-1 p-4">
           <div className="flex flex-col gap-3">
             {menuList.map((item) => (
-              <Card
-                key={item.name}
-                className={`cursor-pointer transition-all ${
-                  selectedMenu === item.name ? "ring-2 ring-primary" : ""
-                }`}
-                onClick={() =>
-                  setSelectedMenu(selectedMenu === item.name ? null : item.name)
-                }
-              >
+              <Card key={item.name}>
                 <CardContent className="flex items-center justify-between py-3">
-                  <span className="font-medium">{item.name}</span>
-                  <span className="text-zinc-500">¥{item.price.toLocaleString()}</span>
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
+                  </div>
+                  <Button size="sm">追加</Button>
                 </CardContent>
               </Card>
             ))}
           </div>
         </main>
-
-        {selectedMenu && (
-          <div className="sticky bottom-16 mx-auto w-full max-w-md px-4 pb-2">
-            <Button className="w-full" size="lg">
-              「{selectedMenu}」を追加する
-            </Button>
-          </div>
-        )}
 
         <div className="fixed bottom-4 right-4">
           <Button variant="secondary" size="lg">
