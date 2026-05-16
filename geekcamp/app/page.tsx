@@ -23,6 +23,8 @@ const menus: Record<string, { name: string; price: number }[]> = {
     { name: "マルゲリータ", price: 980 },
     { name: "ペペロニ", price: 1080 },
     { name: "クワトロフォルマッジ", price: 1180 },
+    { name: "ビスマルク", price: 12000 },
+    { name: "生ハムのルッコラ", price: 5000 },
   ],
   drinks: [
     { name: "コーラ", price: 280 },
