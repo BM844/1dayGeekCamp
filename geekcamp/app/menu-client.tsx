@@ -128,7 +128,7 @@ export default function MenuClient({
       </nav>
 
       <main className="mx-auto w-full max-w-md flex-1 p-4 pb-28">
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {menuList.map((item) => (
             <Card key={item.id} className={!item.isAvailable ? "opacity-50" : ""}>
               {item.image && (
@@ -140,14 +140,13 @@ export default function MenuClient({
                   className="w-full object-cover"
                 />
               )}
-              <CardContent className="flex items-center justify-between py-3">
-                <div className="flex-1 pr-3">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-xs text-zinc-400">{item.description}</p>
-                  <p className="mt-1 text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
-                </div>
+              <CardContent className="flex flex-col gap-1 py-3">
+                <p className="font-medium text-sm">{item.name}</p>
+                <p className="text-xs text-zinc-400 line-clamp-1">{item.description}</p>
+                <p className="text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
                 <Button
                   size="sm"
+                  className="mt-1 w-full"
                   variant={item.isAvailable ? "default" : "outline"}
                   onClick={() => addToOrder(item)}
                 >
