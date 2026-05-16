@@ -131,7 +131,7 @@ export default function Home() {
                   <div key={item.name} className="flex items-center justify-between border-b pb-3">
                     <span className="font-medium">
                       {item.name}
-                      {count > 1 && <span className="ml-1 text-sm text-zinc-400">×{count}</span>}
+                      <span className="ml-1 text-sm text-zinc-400">×{count}</span>
                     </span>
                     <span className="text-zinc-500">¥{(item.price * count).toLocaleString()}</span>
                   </div>
