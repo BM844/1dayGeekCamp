@@ -19,6 +19,7 @@ export default function MenuClient({
   const [showOrder, setShowOrder] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [checkoutTotal, setCheckoutTotal] = useState<number | null>(null);
+  const [checkoutItems, setCheckoutItems] = useState<{ item: { name: string; price: number }; count: number }[]>([]);
   const [peopleInput, setPeopleInput] = useState("1");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -63,10 +64,23 @@ export default function MenuClient({
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
-  // お会計ボタン：DBから今までの全注文合計を取得
+  // お会計ボタン：DBから今までの全注文明細と合計を取得
   const openCheckout = async () => {
     const res = await fetch("/api/orders");
     const data = await res.json();
+    // 全注文のitemsをまとめて品名ごとに集計
+    const merged: { item: { name: string; price: number }; count: number }[] = [];
+    for (const order of data.orders) {
+      for (const entry of order.items) {
+        const existing = merged.find((m) => m.item.name === entry.item.name);
+        if (existing) {
+          existing.count += entry.count;
+        } else {
+          merged.push({ item: entry.item, count: entry.count });
+        }
+      }
+    }
+    setCheckoutItems(merged);
     setCheckoutTotal(data.total);
     setShowCheckout(true);
   };
@@ -76,6 +90,7 @@ export default function MenuClient({
     await fetch("/api/orders", { method: "DELETE" });
     setOrderList([]);
     setCheckoutTotal(null);
+    setCheckoutItems([]);
     setPeopleInput("1");
     setShowCheckout(false);
     setCallingStaff(true);
@@ -263,6 +278,20 @@ export default function MenuClient({
           </header>
           <div className="flex-1 overflow-y-auto p-4">
             <div className="flex flex-col gap-4">
+              {checkoutItems.length > 0 && (
+                <div className="rounded-xl bg-zinc-50 p-4 flex flex-col gap-2">
+                  <p className="text-sm font-medium text-zinc-600 mb-1">注文履歴</p>
+                  {checkoutItems.map(({ item, count }) => (
+                    <div key={item.name} className="flex items-center justify-between border-b pb-2">
+                      <span className="text-sm font-medium">
+                        {item.name}
+                        <span className="ml-1 text-xs text-zinc-400">×{count}</span>
+                      </span>
+                      <span className="text-sm text-zinc-500">¥{(item.price * count).toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="flex items-center justify-between rounded-xl bg-zinc-50 p-4 text-2xl font-bold">
                 <span>合計</span>
                 <span>¥{checkoutTotal.toLocaleString()}</span>

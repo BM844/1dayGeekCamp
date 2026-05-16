@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 const sql = neon(process.env.DATABASE_URL!);
 
 export async function GET() {
-  const rows = await sql`SELECT COALESCE(SUM(total), 0) AS total FROM orders`;
-  return NextResponse.json({ total: Number(rows[0].total) });
+  const rows = await sql`SELECT items, total FROM orders ORDER BY created_at`;
+  const total = rows.reduce((sum: number, r) => sum + Number(r.total), 0);
+  return NextResponse.json({ orders: rows, total });
 }
 
 export async function DELETE() {
