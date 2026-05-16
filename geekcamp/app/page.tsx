@@ -6,18 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const categories = [
-  { id: "sushi", name: "すし", emoji: "🍣" },
+  { id: "sushi", name: "すし", emoji: "🍣", image: "/images/sushi.png" },
   { id: "pizza", name: "ピザ", emoji: "🍕" },
   { id: "drinks", name: "飲みもの", emoji: "🥤" },
   { id: "dessert", name: "デザート", emoji: "🍰" },
 ];
 
-const menus: Record<string, { name: string; price: number; image?: string }[]> = {
+const menus: Record<string, { name: string; price: number }[]> = {
   sushi: [
-    { name: "まぐろ", price: 180, image: "/images/sushi.png" },
-    { name: "サーモン", price: 160, image: "/images/sushi.png" },
-    { name: "えび", price: 150, image: "/images/sushi.png" },
-    { name: "いくら", price: 220, image: "/images/sushi.png" },
+    { name: "まぐろ", price: 180 },
+    { name: "サーモン", price: 160 },
+    { name: "えび", price: 150 },
+    { name: "いくら", price: 220 },
   ],
   pizza: [
     { name: "マルゲリータ", price: 980 },
@@ -60,15 +60,6 @@ export default function Home() {
           <div className="flex flex-col gap-3">
             {menuList.map((item) => (
               <Card key={item.name}>
-                {item.image && (
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={400}
-                    height={200}
-                    className="w-full object-cover"
-                  />
-                )}
                 <CardContent className="flex items-center justify-between py-3">
                   <div>
                     <p className="font-medium">{item.name}</p>
@@ -105,9 +96,21 @@ export default function Home() {
               className="cursor-pointer transition-all hover:ring-2 hover:ring-primary"
               onClick={() => setSelectedCategory(cat.id)}
             >
-              <CardContent className="flex flex-col items-center justify-center gap-2 py-8">
-                <span className="text-4xl">{cat.emoji}</span>
-                <span className="font-medium">{cat.name}</span>
+              {cat.image ? (
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  width={400}
+                  height={200}
+                  className="w-full object-cover"
+                />
+              ) : (
+                <CardContent className="flex flex-col items-center justify-center gap-2 py-8">
+                  <span className="text-4xl">{cat.emoji}</span>
+                </CardContent>
+              )}
+              <CardContent className="py-2 text-center font-medium">
+                {cat.name}
               </CardContent>
             </Card>
           ))}
