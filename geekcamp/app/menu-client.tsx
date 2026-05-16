@@ -103,7 +103,7 @@ export default function MenuClient({
       {callingStaff && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white gap-6 p-8">
           <p className="text-5xl">🔔</p>
-          <p className="text-2xl font-bold">店員を呼んでいます</p>
+          <p className="text-2xl font-bold">スタッフがお伺いいたします。</p>
           <p className="text-zinc-500 text-center">しばらくお待ちください</p>
           <Button variant="outline" onClick={() => setCallingStaff(false)}>
             閉じる
