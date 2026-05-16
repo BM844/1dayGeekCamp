@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -11,12 +12,12 @@ const categories = [
   { id: "dessert", name: "デザート", emoji: "🍰" },
 ];
 
-const menus: Record<string, { name: string; price: number }[]> = {
+const menus: Record<string, { name: string; price: number; image?: string }[]> = {
   sushi: [
-    { name: "まぐろ", price: 180 },
-    { name: "サーモン", price: 160 },
-    { name: "えび", price: 150 },
-    { name: "いくら", price: 220 },
+    { name: "まぐろ", price: 180, image: "/images/sushi.png" },
+    { name: "サーモン", price: 160, image: "/images/sushi.png" },
+    { name: "えび", price: 150, image: "/images/sushi.png" },
+    { name: "いくら", price: 220, image: "/images/sushi.png" },
   ],
   pizza: [
     { name: "マルゲリータ", price: 980 },
@@ -59,6 +60,15 @@ export default function Home() {
           <div className="flex flex-col gap-3">
             {menuList.map((item) => (
               <Card key={item.name}>
+                {item.image && (
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={400}
+                    height={200}
+                    className="w-full object-cover"
+                  />
+                )}
                 <CardContent className="flex items-center justify-between py-3">
                   <div>
                     <p className="font-medium">{item.name}</p>
