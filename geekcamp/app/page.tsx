@@ -11,9 +11,15 @@ export default function Home() {
   const [orderList, setOrderList] = useState<MenuItem[]>([]);
   const [showOrder, setShowOrder] = useState(false);
   const [people, setPeople] = useState(1);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const menuList = menus[selectedCategory];
 
   const addToOrder = (item: MenuItem) => {
+    if (!item.isAvailable) {
+      setErrorMessage(`「${item.name}」は現在品切れです`);
+      setTimeout(() => setErrorMessage(null), 3000);
+      return;
+    }
     setOrderList((prev) => [...prev, item]);
   };
 
@@ -22,6 +28,12 @@ export default function Home() {
       <header className="bg-white px-4 py-3 shadow-sm">
         <h1 className="text-xl font-bold">OSAKI亭</h1>
       </header>
+
+      {errorMessage && (
+        <div className="fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-red-500 px-4 py-2 text-sm text-white shadow-lg">
+          {errorMessage}
+        </div>
+      )}
 
       <nav className="flex border-b bg-white">
         {categories.map((cat) => (
@@ -58,7 +70,11 @@ export default function Home() {
                   <p className="text-xs text-zinc-400">{item.description}</p>
                   <p className="mt-1 text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
                 </div>
-                <Button size="sm" disabled={!item.isAvailable} onClick={() => addToOrder(item)}>
+                <Button
+                  size="sm"
+                  variant={item.isAvailable ? "default" : "outline"}
+                  onClick={() => addToOrder(item)}
+                >
                   {item.isAvailable ? "追加" : "売切"}
                 </Button>
               </CardContent>
