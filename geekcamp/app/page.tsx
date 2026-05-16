@@ -17,6 +17,7 @@ const menus: Record<string, { name: string; price: number }[]> = {
     { name: "サーモン", price: 160 },
     { name: "えび", price: 150 },
     { name: "いくら", price: 220 },
+    { name: "カリフォルニアロール", price: 1000 },
   ],
   pizza: [
     { name: "マルゲリータ", price: 980 },
