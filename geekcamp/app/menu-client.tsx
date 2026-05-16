@@ -196,7 +196,7 @@ export default function MenuClient({
           onClick={openCheckout}
           className="flex items-center gap-2 rounded-full bg-red-500 px-5 py-3 text-sm font-medium text-white shadow-lg"
         >
-          お会計
+          注文履歴/会計
         </button>
       </div>
 
@@ -283,7 +283,7 @@ export default function MenuClient({
                   <span className="text-sm text-zinc-500">/人</span>
                 </div>
               </div>
-              <Button className="w-full" size="lg" onClick={confirmCheckout}>
+              <Button className="w-full bg-red-500 hover:bg-red-600" size="lg" onClick={confirmCheckout}>
                 会計を確定する
               </Button>
             </div>
