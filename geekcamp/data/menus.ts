@@ -70,7 +70,8 @@ export const menus: Record<string, MenuItem[]> = {
     {
       name: "マルゲリータ",
       price: 980,
-      description: "トマト・モッツァレラ・バジルのシンプルな一枚",
+      description: "迷ったらこれ",
+      image: "/images/margherita.png",
       category: "pizza",
       isAvailable: true,
       allergens: ["小麦", "乳"],
@@ -78,7 +79,7 @@ export const menus: Record<string, MenuItem[]> = {
     {
       name: "ペペロニ",
       price: 1080,
-      description: "スパイシーなペペロニがたっぷり",
+      description: "アメリカ！",
       category: "pizza",
       isAvailable: true,
       allergens: ["小麦", "乳", "豚肉"],
@@ -94,7 +95,7 @@ export const menus: Record<string, MenuItem[]> = {
     {
       name: "ビスマルク",
       price: 12000,
-      description: "目玉焼きとハムをのせた贅沢な一枚",
+      description: "これだけ窯で焼いてます",
       category: "pizza",
       isAvailable: true,
       allergens: ["小麦", "乳", "卵"],
