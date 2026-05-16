@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { categories, menus } from "@/data/menus";
@@ -34,13 +35,25 @@ export default function Home() {
       <main className="mx-auto w-full max-w-md flex-1 p-4">
         <div className="flex flex-col gap-3">
           {menuList.map((item) => (
-            <Card key={item.name}>
+            <Card key={item.name} className={!item.isAvailable ? "opacity-50" : ""}>
+              {item.image && (
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={400}
+                  height={200}
+                  className="w-full object-cover"
+                />
+              )}
               <CardContent className="flex items-center justify-between py-3">
-                <div>
+                <div className="flex-1 pr-3">
                   <p className="font-medium">{item.name}</p>
-                  <p className="text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
+                  <p className="text-xs text-zinc-400">{item.description}</p>
+                  <p className="mt-1 text-sm text-zinc-500">¥{item.price.toLocaleString()}</p>
                 </div>
-                <Button size="sm">追加</Button>
+                <Button size="sm" disabled={!item.isAvailable}>
+                  {item.isAvailable ? "追加" : "売切"}
+                </Button>
               </CardContent>
             </Card>
           ))}
