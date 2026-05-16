@@ -132,13 +132,14 @@ export default function MenuClient({
           {menuList.map((item) => (
             <Card key={item.id} className={!item.isAvailable ? "opacity-50" : ""}>
               {item.image && (
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={400}
-                  height={200}
-                  className="w-full object-cover"
-                />
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               )}
               <CardContent className="flex flex-col gap-1 py-3">
                 <p className="font-medium text-sm">{item.name}</p>
