@@ -13,6 +13,7 @@ export default function MenuClient({
   categories: Category[];
   menus: Record<string, MenuItem[]>;
 }) {
+  const [showWelcome, setShowWelcome] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id ?? "");
   const [orderList, setOrderList] = useState<MenuItem[]>([]);
   const [showOrder, setShowOrder] = useState(false);
@@ -78,6 +79,32 @@ export default function MenuClient({
 
   const people = Math.max(1, Number(peopleInput) || 1);
   const perPerson = checkoutTotal !== null ? Math.ceil(checkoutTotal / people) : 0;
+
+  if (showWelcome) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-900 gap-12">
+        <h1
+          className="text-4xl font-bold text-white"
+          style={{ animation: "fadeInUp 1.2s ease forwards" }}
+        >
+          ようこそ　OSAKI亭へ
+        </h1>
+        <button
+          onClick={() => setShowWelcome(false)}
+          className="text-zinc-300 text-lg"
+          style={{ animation: "fadeInUp 1.2s ease 1.5s both" }}
+        >
+          注文へ →
+        </button>
+        <style>{`
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50">
