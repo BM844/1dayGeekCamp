@@ -8,6 +8,11 @@ export async function GET() {
   return NextResponse.json({ total: Number(rows[0].total) });
 }
 
+export async function DELETE() {
+  await sql`DELETE FROM orders`;
+  return NextResponse.json({ success: true });
+}
+
 export async function POST(request: Request) {
   const { items, total } = await request.json();
 

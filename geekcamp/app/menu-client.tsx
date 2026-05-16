@@ -72,7 +72,11 @@ export default function MenuClient({
   };
 
   // 会計確定
-  const confirmCheckout = () => {
+  const confirmCheckout = async () => {
+    await fetch("/api/orders", { method: "DELETE" });
+    setOrderList([]);
+    setCheckoutTotal(null);
+    setPeopleInput("1");
     setShowCheckout(false);
     setCallingStaff(true);
   };
