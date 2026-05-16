@@ -16,6 +16,7 @@ export default function MenuClient({
   const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id ?? "");
   const [orderList, setOrderList] = useState<MenuItem[]>([]);
   const [showOrder, setShowOrder] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [peopleInput, setPeopleInput] = useState("1");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [ordering, setOrdering] = useState(false);
@@ -136,15 +137,28 @@ export default function MenuClient({
       {showOrder && (
         <div className="fixed inset-0 z-50 flex flex-col bg-white">
           <header className="flex items-center justify-between border-b px-4 py-3">
-            <h2 className="text-lg font-bold">注文リスト</h2>
-            <button onClick={() => setShowOrder(false)} className="text-zinc-500">
-              ✕ 閉じる
+            <h2 className="text-lg font-bold">
+              {showCheckout ? "お会計" : "注文リスト"}
+            </h2>
+            <button
+              onClick={() => {
+                if (showCheckout) {
+                  setShowCheckout(false);
+                } else {
+                  setShowOrder(false);
+                }
+              }}
+              className="text-zinc-500"
+            >
+              {showCheckout ? "← 戻る" : "✕ 閉じる"}
             </button>
           </header>
+
           <div className="flex-1 overflow-y-auto p-4">
             {grouped.length === 0 ? (
               <p className="text-center text-zinc-400 mt-10">まだ何も追加されていません</p>
-            ) : (
+            ) : showCheckout ? (
+              /* お会計画面 */
               <div className="flex flex-col gap-3">
                 {grouped.map(({ item, count }) => (
                   <div key={item.id} className="flex items-center justify-between border-b pb-3">
@@ -155,7 +169,7 @@ export default function MenuClient({
                     <span className="text-zinc-500">¥{(item.price * count).toLocaleString()}</span>
                   </div>
                 ))}
-                <div className="flex items-center justify-between pt-2 text-lg font-bold">
+                <div className="flex items-center justify-between pt-2 text-2xl font-bold">
                   <span>合計</span>
                   <span>¥{total.toLocaleString()}</span>
                 </div>
@@ -182,6 +196,26 @@ export default function MenuClient({
                   disabled={ordering}
                 >
                   {ordering ? "送信中..." : "注文を確定する"}
+                </Button>
+              </div>
+            ) : (
+              /* 注文リスト画面 */
+              <div className="flex flex-col gap-3">
+                {grouped.map(({ item, count }) => (
+                  <div key={item.id} className="flex items-center justify-between border-b pb-3">
+                    <span className="font-medium">
+                      {item.name}
+                      <span className="ml-1 text-sm text-zinc-400">×{count}</span>
+                    </span>
+                    <span className="text-zinc-500">¥{(item.price * count).toLocaleString()}</span>
+                  </div>
+                ))}
+                <Button
+                  className="mt-4 w-full"
+                  size="lg"
+                  onClick={() => setShowCheckout(true)}
+                >
+                  お会計
                 </Button>
               </div>
             )}
