@@ -101,6 +101,10 @@ export default function Home() {
                     <span className="text-zinc-500">¥{item.price.toLocaleString()}</span>
                   </div>
                 ))}
+                <div className="flex items-center justify-between pt-2 text-lg font-bold">
+                  <span>合計</span>
+                  <span>¥{orderList.reduce((sum, item) => sum + item.price, 0).toLocaleString()}</span>
+                </div>
               </div>
             )}
           </div>
